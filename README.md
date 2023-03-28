@@ -1,4 +1,4 @@
-# Exercise 6: Agents interacting on the Web
+# Exercise 6: Interacting Agents on the Web
 
 This repository contains a partial implementation of a [JaCaMo](https://github.com/jacamo-lang/jacamo) application where BDI agents interact with their environment based on [W3C Web of Things (WoT) Thing Descriptions](https://www.w3.org/TR/wot-thing-description11/), and coordinate with each other to assist a user through their daily activities.
 
