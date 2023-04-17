@@ -26,7 +26,8 @@ owner_state(_).
     // performs an action that creates a new artifact of type ThingArtifact, named "wristband" using the WoT TD located at Url
     // the action unifies ArtId with the ID of the artifact in the workspace
     makeArtifact("wristband", "org.hyperagents.jacamo.artifacts.wot.ThingArtifact", [Url], ArtId);
-    !read_owner_state. // creates the goal !read_owner_state
+    !read_owner_state; // creates the goal !read_owner_state
+    .send(personal_assistant,tell,owner_state(State)).
 
 /* 
  * Plan for reacting to the addition of the goal !read_owner_state
@@ -43,7 +44,10 @@ owner_state(_).
     .nth(0,OwnerStateLst,OwnerState); // performs an action that unifies OwnerState with the element of the list OwnerStateLst at index 0
     -+owner_state(OwnerState); // updates the beleif owner_state 
     .wait(5000);
+    .send(personal_assistant,tell,owner_state(OwnerState));
+    .print("The owner state debug is ", OwnerState);
     !read_owner_state. // creates the goal !read_owner_state
+
 
 /* 
  * Plan for reacting to the addition of the belief !owner_state
