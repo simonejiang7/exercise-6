@@ -12,4 +12,8 @@ mas wake_up_mas {
     agent blinds_controller
     agent lights_controller
 
+    workspace room {
+        artifact dweet_artifact: room.DweetArtifact
+    }
+
 }
