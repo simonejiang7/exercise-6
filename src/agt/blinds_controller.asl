@@ -24,20 +24,24 @@ blinds("lowered").
 +!start : td("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#Blinds", Url) <-
     .print("Hello world");
     makeArtifact("blinds", "org.hyperagents.jacamo.artifacts.wot.ThingArtifact", [Url], ArtId);
-    !set_state_to_raised;
-    !set_state_to_lowered. 
+    !set_state_to_raised.
+    // !set_state_to_lowered. 
 
 @set_state_raised_plan
 +!set_state_to_raised: true <-
     invokeAction("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#SetState", ["raised"]);
     -+blinds("raised");
-    .print("Blinds are now ", "raised").
+    .print("Blinds are now ", "raised");
+    .wait(5000);
+    !set_state_to_lowered.
 
 @set_state_lowered_plan
 +!set_state_to_lowered: true <-
     invokeAction("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#SetState", ["lowered"]);
     -+blinds("lowered");
-    .print("Blinds are now ", "lowered").
+    .print("Blinds are now ", "lowered");
+    .wait(5000);
+    !set_state_to_raised.
 
 /* Import behavior of agents that work in CArtAgO environments */
 { include("$jacamoJar/templates/common-cartago.asl") }
