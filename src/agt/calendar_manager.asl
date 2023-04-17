@@ -22,8 +22,8 @@ upcoming_event(_).
 
 @read_upcoming_event_plan
 +!read_upcoming_event : true <-
-    readProperty("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#ReadUpcomingEvent",  UpcomingEventLst);
-    .nth(0,UpcomingEventLst,UpcomingEvent); 
+    readProperty("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#ReadUpcomingEvent",  UpcomingEventList);
+    .nth(0,UpcomingEventList,UpcomingEvent); 
     -+upcoming_event(UpcomingEvent); 
     .wait(5000);
     !read_upcoming_event. 
