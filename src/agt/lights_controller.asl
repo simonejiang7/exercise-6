@@ -32,6 +32,7 @@ lights("off").
     -+lights("on");
     .print("Lights are now ", "on");
     .wait(5000);
+    .send(personal_assistant,tell,lights("on"));
     !set_state_to_off.
 
 @set_state_lowered_plan
@@ -39,6 +40,7 @@ lights("off").
     invokeAction("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#SetState", ["off"]);
     -+lights("off");
     .print("Lights are now ", "off");
+     .send(personal_assistant,tell,lights("off"));
     .wait(5000);
     !set_state_to_on.
 

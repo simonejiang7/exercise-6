@@ -26,6 +26,7 @@ upcoming_event(_).
     .nth(0,UpcomingEventList,UpcomingEvent); 
     -+upcoming_event(UpcomingEvent); 
     .wait(5000);
+    .send(personal_assistant,tell,upcoming_event(UpcomingEvent));
     !read_upcoming_event. 
 
 @owner_state_plan

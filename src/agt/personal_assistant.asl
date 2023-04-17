@@ -3,6 +3,7 @@
 /* Initial goals */ 
 
 // owner_state(_).
+// blinds("lowered").
 
 // The agent has the goal to start
 !start.
@@ -17,10 +18,11 @@
 +!start : true <-
     .print("Hello world");
     !create_and_send;
-    !show_owner_state;
+    // !show_owner_state;
     .wait(7000);
-    // !send(wristband_manager, askOne, owner_state(State), Answer);
-    !show_owner_state.
+    !read_state.
+    // // !send(wristband_manager, askOne, owner_state(State), Answer);
+    // !show_owner_state.
 
 
 // the agent has a plan for creating a DweetArtifact, and then using the artifact to send messages.
@@ -37,8 +39,14 @@
 // +owner_state(State) : true <-
 //     .print("The owner state is ", State).
 
-+!show_owner_state : owner_state(State) <-
-    .print("The owner state is ", owner_state(State)).
++!read_state : owner_state(State) & upcoming_event(UpcomingEvent) & blinds(BlindState) & lights (LightState) <-
+// +!read_state : owner_state(State) & upcoming_event(UpcomingEvent) <-
+    .wait(8000);
+    .print("The owner state is ", State);
+    .print("The upcoming event is ", UpcomingEvent);
+    .print("The blinds state is ", BlindState);
+    .print("The lights state is ", LightState);
+    !read_state.
 
 /* Import behavior of agents that work in CArtAgO environments */
 { include("$jacamoJar/templates/common-cartago.asl") }

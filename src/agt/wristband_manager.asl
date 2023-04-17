@@ -45,9 +45,7 @@ owner_state(_).
     -+owner_state(OwnerState); // updates the beleif owner_state 
     .wait(5000);
     .send(personal_assistant,tell,owner_state(OwnerState));
-    .print("The owner state debug is ", OwnerState);
     !read_owner_state. // creates the goal !read_owner_state
-
 
 /* 
  * Plan for reacting to the addition of the belief !owner_state

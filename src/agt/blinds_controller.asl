@@ -33,6 +33,7 @@ blinds("lowered").
     -+blinds("raised");
     .print("Blinds are now ", "raised");
     .wait(5000);
+    .send(personal_assistant,tell,blinds("raised"));
     !set_state_to_lowered.
 
 @set_state_lowered_plan
@@ -41,6 +42,7 @@ blinds("lowered").
     -+blinds("lowered");
     .print("Blinds are now ", "lowered");
     .wait(5000);
+    .send(personal_assistant,tell,blinds("lowered"));
     !set_state_to_raised.
 
 /* Import behavior of agents that work in CArtAgO environments */
