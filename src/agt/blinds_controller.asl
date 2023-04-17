@@ -13,6 +13,7 @@ blinds("lowered").
 
 // The agent has the goal to start
 !start.
+// !set_state_loop.
 
 /* 
  * Plan for reacting to the addition of the goal !start
@@ -24,26 +25,24 @@ blinds("lowered").
 +!start : td("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#Blinds", Url) <-
     .print("Hello world");
     makeArtifact("blinds", "org.hyperagents.jacamo.artifacts.wot.ThingArtifact", [Url], ArtId);
-    !set_state_to_raised.
-    // !set_state_to_lowered. 
+    !set_state_blinds;
+    .wait(5000);
+    !set_state_blinds.
 
 @set_state_raised_plan
-+!set_state_to_raised: true <-
++!set_state_blinds: blinds("lowered") <-
     invokeAction("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#SetState", ["raised"]);
     -+blinds("raised");
     .print("Blinds are now ", "raised");
-    .wait(5000);
-    .send(personal_assistant,tell,blinds("raised"));
-    !set_state_to_lowered.
+    .send(personal_assistant,tell,blinds("raised")).
 
 @set_state_lowered_plan
-+!set_state_to_lowered: true <-
++!set_state_blinds: blinds("raised") <-
     invokeAction("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#SetState", ["lowered"]);
     -+blinds("lowered");
     .print("Blinds are now ", "lowered");
-    .wait(5000);
-    .send(personal_assistant,tell,blinds("lowered"));
-    !set_state_to_raised.
+    .send(personal_assistant,tell,blinds("lowered")).
+
 
 /* Import behavior of agents that work in CArtAgO environments */
 { include("$jacamoJar/templates/common-cartago.asl") }
