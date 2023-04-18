@@ -2,7 +2,6 @@ package room;
 
 import cartago.Artifact;
 import cartago.OPERATION;
-import cartago.ObsProperty;
 
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
@@ -18,13 +17,10 @@ import org.json.JSONObject;
 public class DweetArtifact extends Artifact {
 
     void init() {
-        // defineObsProperty("DweetArtifact",0);
+        // not defining any internal state
     }
 
     @OPERATION void sendMessage(String msg) throws JSONException {
-
-        // ObsProperty prop = getObsProperty("newMessage");
-        // prop.updateValue(msg);
 
         JSONObject jsonBody = new JSONObject();
         jsonBody.put("newMessage", msg);
@@ -41,6 +37,7 @@ public class DweetArtifact extends Artifact {
         .thenAccept(System.out::println)
         .join();
         
+        // observable event
         signal("newMessage",msg);
     }
 }

@@ -7,13 +7,16 @@
 td("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#Blinds", "https://raw.githubusercontent.com/Interactions-HSG/example-tds/was/tds/blinds.ttl").
 
 // the agent initially believes that the blinds are "lowered"
-blinds("lowered").
+// blinds("lowered").
+blinds("raised").
+protocol_state_blinds("accept").
+// refuses_brightening_blind.
+// accepts_brightening_blind.
 
 /* Initial goals */ 
 
 // The agent has the goal to start
 !start.
-// !set_state_loop.
 
 /* 
  * Plan for reacting to the addition of the goal !start
@@ -50,13 +53,15 @@ blinds("lowered").
     .print("raising the blinds");
     -+blinds("raised");
     .send(personal_assistant,tell,blinds("raised"));
+    .send(personal_assistant,tell,accepts_protocol_state_blinds("accept"));
     .wait(5000);
     !react_to_personal_assistant.
 
 @react_to_personal_assistant_plan_raised
 +!react_to_personal_assistant: blinds("raised") & requires_brightening <-
     .print("the blinds are already raised");
-    .send(personal_assistant,tell,blinds("raised"));
+    -+protocol_state_blinds("refuse");
+    .send(personal_assistant,tell,protocol_state_blinds("refuse"));
     .wait(5000);
     !react_to_personal_assistant.
 

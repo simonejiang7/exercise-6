@@ -7,7 +7,11 @@
 td("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#Lights", "https://raw.githubusercontent.com/Interactions-HSG/example-tds/was/tds/lights.ttl").
 
 // The agent initially believes that the lights are "off"
-lights("off").
+// lights("off").
+lights("on").
+protocol_state_light("accept").
+// refuses_brightening_light.
+// accepts_brightening_light.
 
 /* Initial goals */ 
 
@@ -48,13 +52,15 @@ lights("off").
 +!react_to_personal_assistant_light: lights("off")  & requires_brightening <- 
     .print("turning on lights");
     .send(personal_assistant,tell,lights("on"));
+    .send(personal_assistant,tell,protocol_state_light("accept"));
     .wait(5000);
     !react_to_personal_assistant_light.
 
 @react_to_personal_assistant_light_off_plan
 +!react_to_personal_assistant_light: lights("on")  & requires_brightening <- 
     .print("lights are already on");
-    .send(personal_assistant,tell,lights("on"));
+    -+protocol_state_light("refuse");
+    .send(personal_assistant,tell,protocol_state_light("refuse"));
     .wait(5000);
     !react_to_personal_assistant_light.
 
