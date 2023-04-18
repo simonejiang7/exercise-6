@@ -10,8 +10,6 @@ td("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#Blinds", "http
 // blinds("lowered").
 blinds("raised").
 protocol_state_blinds("accept").
-// refuses_brightening_blind.
-// accepts_brightening_blind.
 
 /* Initial goals */ 
 

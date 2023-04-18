@@ -10,8 +10,6 @@ td("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#Lights", "http
 // lights("off").
 lights("on").
 protocol_state_light("accept").
-// refuses_brightening_light.
-// accepts_brightening_light.
 
 /* Initial goals */ 
 

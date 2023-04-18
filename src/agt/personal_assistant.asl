@@ -10,8 +10,6 @@ ranking_natural_light(0).
 
 // The agent has the goal to start
 !start.
-// .waits(30000).
-// !create_and_send. // create a DweetArtifact and send message to the owner's friends
 
 /* 
  * Plan for reacting to the addition of the goal !start
@@ -65,12 +63,6 @@ ranking_natural_light(0).
     .broadcast(tell,requires_brightening);
     .wait(15000);
     !accept_protocol.
-
-// @accept_protocol_with_ranking_plan
-// +!accept_protocol: (ranking_artificial_light < ranking_natural_light) & accepts_brightening_light & accepts_brightening_blind <-
-//     !accept_blinds_protocol;
-//     !accept_lights_protocol.
-
 
 @accept_protocol_with_ranking_plan
 +!accept_protocol: (ranking_artificial_light < ranking_natural_light) & protocol_state_blinds("accept") & protocol_state_light("accept") <-
