@@ -24,27 +24,39 @@ lights("off").
 +!start : td("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#Lights", Url) <-
     .print("Hello world");
     makeArtifact("lights", "org.hyperagents.jacamo.artifacts.wot.ThingArtifact", [Url], ArtId);
-    !set_state_to_on.
+    !set_state_light;
+    .wait(10000);
+    !react_to_personal_assistant_light.
 
 @set_state_raised_plan
-+!set_state_to_on: true <-
++!set_state_light: lights("off") <-
     invokeAction("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#SetState", ["on"]);
     -+lights("on");
     .print("Lights are now ", "on");
     .send(personal_assistant,tell,lights("on"));
-    .wait(5000);
-    !set_state_to_off;
-    !set_state_to_on.
+    .wait(5000).
 
 @set_state_lowered_plan
-+!set_state_to_off: true <-
++!set_state_light: lights("on") <-
     invokeAction("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#SetState", ["off"]);
     -+lights("off");
     .print("Lights are now ", "off");
     .send(personal_assistant,tell,lights("off"));
+    .wait(5000).
+
+@react_to_personal_assistant_light_on_plan
++!react_to_personal_assistant_light: lights("off")  & requires_brightening <- 
+    .print("turning on lights");
+    .send(personal_assistant,tell,lights("on"));
     .wait(5000);
-    !set_state_to_on;
-    !set_state_to_off.
+    !react_to_personal_assistant_light.
+
+@react_to_personal_assistant_light_off_plan
++!react_to_personal_assistant_light: lights("on")  & requires_brightening <- 
+    .print("lights are already on");
+    .send(personal_assistant,tell,lights("on"));
+    .wait(5000);
+    !react_to_personal_assistant_light.
 
 /* Import behavior of agents that work in CArtAgO environments */
 { include("$jacamoJar/templates/common-cartago.asl") }

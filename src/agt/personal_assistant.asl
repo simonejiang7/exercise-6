@@ -2,8 +2,10 @@
 
 /* Initial goals */ 
 
-// owner_state(_).
-// blinds("lowered").
+requires_brightening:- blinds("lowered") & lights("off").
+
+ranking_artificial_light(1).
+ranking_natural_light(0).
 
 // The agent has the goal to start
 !start.
@@ -18,7 +20,8 @@
 @start_plan
 +!start : true <-
     .print("Hello world");
-    .wait(7000);
+    .wait(10000);
+    !react_to_upcoming_events;
     !start.
 
 // the agent has a plan for creating a DweetArtifact, and then using the artifact to send messages.
@@ -32,40 +35,47 @@
 +!setUpDweetArtifact : true
   <- makeArtifact("dweet_artifact","room.DweetArtifact").
 
-// +!read_state : true <- 
-//     !read_owner_state;
-//     !read_upcoming_events;
-//     !read_blinds_state;
-//     !read_light_state;
-//     .wait(3000).
+@react_to_upcoming_events_awake_plan
++!react_to_upcoming_events : upcoming_event("now") & owner_state("awake") <-
+    .print("Enjoy your event").
 
-// +!read_owner_state : owner_state(OwnerState) <- 
-//     .print("The owner is ", OwnerState).
+@react_to_upcoming_events_asleep_plan
++!react_to_upcoming_events : upcoming_event("now") & owner_state("asleep") <-
+    .print("Starting wake-up routine");
+    !increase_illuminance.
 
-// +!read_upcoming_events : upcoming_event(UpcomingEvents) <- 
-//     .print("The upcoming events are ", UpcomingEvents).
+@increase_illuminance_plan
++!increase_illuminance: true <- 
+    .print("Increasing illuminance");
+    .broadcast(tell,requires_brightening);
+    !accept_blinds_protocol;
+    !accept_lights_protocol.
 
-// +!read_blinds_state : blinds("lowered") <-
-//     .print("The blinds are lowered.").
+@accept_blinds_protocol_plan
++!accept_blinds_protocol : blinds("raised") & owner_state("asleep") <-
+    .print("Blinds are already raised");
+    .print("Owner is still asleep").
 
-// +!read_blinds_state : blinds("raised") <-
-//     .print("The blinds are raised.").
+@accept_light_protocol_plan
++!accept_lights_protocol : lights("on") & owner_state("asleep") <-
+    .print("Lights are already on");
+    .print("Owner is still asleep").
 
-// +!read_light_state : lights("on") <-
-//     .print("The light is on.").
-
-// +!read_light_state : lights("off") <-
-//     .print("The light is off.").
-
+@owner_state_plan
 +owner_state(OwnerState) <- 
+    -+owner_state("asleep");
     .print("The owner is ", OwnerState).
 
+@upcoming_events_plan
 +upcoming_event(UpcomingEvents) <-
+    -+upcoming_event("now");
     .print("The upcoming events are ", UpcomingEvents).
 
+@blinds_plan
 +blinds(BlindStatus) <-
     .print("The blinds are ", BlindStatus).
 
+@lights_plan
 +lights(LightStatus) <- 
     .print("The light is ", LightStatus).
 

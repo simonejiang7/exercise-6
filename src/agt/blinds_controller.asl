@@ -26,22 +26,39 @@ blinds("lowered").
     .print("Hello world");
     makeArtifact("blinds", "org.hyperagents.jacamo.artifacts.wot.ThingArtifact", [Url], ArtId);
     !set_state_blinds;
-    .wait(5000);
-    !set_state_blinds.
+    .wait(10000);
+    !react_to_personal_assistant.
 
 @set_state_raised_plan
 +!set_state_blinds: blinds("lowered") <-
     invokeAction("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#SetState", ["raised"]);
     -+blinds("raised");
     .print("Blinds are now ", "raised");
-    .send(personal_assistant,tell,blinds("raised")).
+    .send(personal_assistant,tell,blinds("raised"));
+    .wait(5000).
 
 @set_state_lowered_plan
 +!set_state_blinds: blinds("raised") <-
     invokeAction("https://was-course.interactions.ics.unisg.ch/wake-up-ontology#SetState", ["lowered"]);
     -+blinds("lowered");
     .print("Blinds are now ", "lowered");
-    .send(personal_assistant,tell,blinds("lowered")).
+    .send(personal_assistant,tell,blinds("lowered"));
+    .wait(5000).
+
+@react_to_personal_assistant_plan_lowerd
++!react_to_personal_assistant: blinds("lowered") & requires_brightening <-
+    .print("raising the blinds");
+    -+blinds("raised");
+    .send(personal_assistant,tell,blinds("raised"));
+    .wait(5000);
+    !react_to_personal_assistant.
+
+@react_to_personal_assistant_plan_raised
++!react_to_personal_assistant: blinds("raised") & requires_brightening <-
+    .print("the blinds are already raised");
+    .send(personal_assistant,tell,blinds("raised"));
+    .wait(5000);
+    !react_to_personal_assistant.
 
 
 /* Import behavior of agents that work in CArtAgO environments */
