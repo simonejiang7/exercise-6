@@ -9,6 +9,7 @@ ranking_natural_light(0).
 
 // The agent has the goal to start
 !start.
+.waits(30000).
 !create_and_send.
 
 /* 
@@ -21,15 +22,15 @@ ranking_natural_light(0).
 +!start : true <-
     .print("Hello world");
     .wait(10000);
-    !react_to_upcoming_events;
-    !start.
+    !react_to_upcoming_events.
+    // !start.
 
 // the agent has a plan for creating a DweetArtifact, and then using the artifact to send messages.
 @create_artifact_and_send_message_plan
 +!create_and_send : true
   <- !setUpDweetArtifact;
-    sendMessage("New Message from Agent");
-    .print("Message sent").
+    sendMessage("This is Personal Assistant Agent. Please help me to wake up my owner.");
+    .print("Message sent to the owner's friends").
 
 // create a DweetArtifact
 +!setUpDweetArtifact : true
